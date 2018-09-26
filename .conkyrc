@@ -1,0 +1,97 @@
+# set to yes if you want Conky to be forked in the baackground
+background yes
+use_xft yes
+xftfont arial:size=10
+xftalpha 0.5
+update_interval 1.0
+total_run_times 0
+own_window yes
+own_window_type desktop
+own_window_transparent yes
+own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
+double_buffer yes
+minimum_size 500 1200
+maximum_width 250
+draw_shades no
+draw_outline no
+draw_borders no
+draw_graaph_borders yes
+
+default_color white
+default_shade_color red
+default_outline_color grey
+alignment top_right
+gap_x 25
+gap_y 12
+no_buffers yes
+uppercase no
+cpu_avg_samples 2
+override_utf8_locale no
+
+# Use TZ column from
+#   https://en.wikipedia.org/wiki/List_of_tz_database_time_zone
+
+TEXT
+${alignc}${font arial:size=16} Bill's Pi 3 Linux ${font}
+
+Local: ${alignc}${font arial:size=12}${time %H:%M:%S}${font}
+${alignc -6}${font arial:size=10}${Time %A %m-%d-%y}
+
+Zulu: ${alignc}${font arial:size=12}${tztime Zulu %H:%M:%S}${font}
+${alignc -6}${font arial:size=10}${tztime Zulu %A %m-%d-%y}
+
+${hr 2}
+
+${font arial:size=10}
+CPU 1 $alignr ${cpu cpu1}%
+${cpubar cpu1}
+
+CPU 2 $alignr ${cpu cpu2}%
+${cpubar cpu2}
+
+CPU 3 $alignr ${cpu cpu3}%
+${cpubar cpu3}
+
+CPU 4 $alignr ${cpu cpu4}%
+${cpubar cpu4}
+
+${hr 2}
+
+MEM $alignc $mem / $memmax $alignr $memperc%
+$membar
+
+${hr 2}
+
+SWAP $alignc $swap / $swapmax $alignr $swapperc%
+$swapbar
+
+${hr 2}
+
+${font arial:size=10}
+# Ethernet Network
+Ethernet Network:
+${alignc} eth0: ${addr eth0}
+Inbound $alignr ${downspeedf eth0} kb/s
+${downspeedgraph eth0}
+Outbound $alignr ${upspeedf eth0} kb/s
+${upspeedgraph eth0}
+
+${hr 2}
+
+${font arial:size=10}
+# Wi-Fi Network
+Wireless Network:
+${alignc} wlan0: ${addr wlan0}
+${alignc} SSID: ${wireless_essid wlan0}
+Inbound $alignr ${downspeedf wlan0} kb/s
+${downspeedgraph wlan0}
+Outbound $alignr ${upspeedf wlan0} kb/s
+${upspeedgraph wlan0}
+
+# AmRRON SITREP Status
+${hr 2}
+AmRRON Status:
+${font arial:size=11}${color5}${alignc}Currently at ${execi 3600 wget -q -O - "https://amrron.com/net-resourcestools/amcon-amrron-communications-condition-level/ "|grep -m1 "AmCON-1\|AmCON-2\|AmCON-3\|AmCON-4\|AmCON-5" -o | head -n1}
+${color0}${hr 2}
+
+
